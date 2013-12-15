@@ -1,0 +1,46 @@
+<html>
+<head>
+	<title>Endless Jungle</title>
+	<link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+	<script type="text/javascript" src="http://code.createjs.com/createjs-2013.09.25.min.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+	<style>
+	#gameCanvas {
+		border : 1px solid black;
+		background-color: #5588AA;
+
+	}
+	#score_board {
+		position : relative;
+		top : -310px;
+		left : 10px;
+		pointer-events : none;
+		-webkit-user-select: none;  
+  		-moz-user-select: none;    
+  		-ms-user-select: none;      
+  		user-select: none;
+  		font-family: "VT323";
+  		font-size: 120%;
+	}
+	#game_message {
+		position : relative;
+		top:-155px;
+		width:640px;
+		text-align: center;
+		display:none;
+		font-family: "VT323";
+		font-size: 120%;
+		pointer-events : none;
+		-webkit-user-select: none;  
+  		-moz-user-select: none;    
+  		-ms-user-select: none;      
+		user-select: none;
+	}
+	</style>
+</head>
+<body onLoad="init()">
+	<canvas height="320" width="640" id="gameCanvas"></canvas>
+	<div id="score_board">score : <span id="score_value">0</span></div>
+	<div id="game_message">play</div>
+</body>
+</html>
