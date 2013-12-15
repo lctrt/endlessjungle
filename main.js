@@ -11,14 +11,24 @@ var score;
 var bestScore = 0;
 var groundTiles;
 var titleSpriteSheet;
-var imgPlayerARun = new Image();
 
 function init() {
     canvas = document.getElementById("gameCanvas");
 
-    imgPlayerARun.onload = handleImageLoad;
-    imgPlayerARun.onerror = handleImageError;
-    imgPlayerARun.src = "assets/panda_animation.png";
+    queue = new createjs.LoadQueue(false);
+    queue.installPlugin(createjs.Sound);
+    queue.addEventListener("complete", handleLoadComplete);
+    queue.loadManifest([
+     	{id:"player", src:"assets/panda_animation.png"},
+     	{id:"map", src:"assets/map.png"},
+     	{id:"arrow", src:"assets/arrow.png"},
+     	{id:"rock", src:"assets/rock_roll.png"},
+     	{id:"title", src:"assets/title.png"},
+     	{id:"sound_die", src:"assets/die.wav"},
+     	{id:"sound_jump", src:"assets/jump.wav"},
+     	{id:"sound_turbo", src:"assets/turbo.wav"},
+     	{id:"music", src:"assets/ld48.ogg"},
+    ]);
 }
 
 function reset() {
@@ -27,11 +37,13 @@ function reset() {
     stage.update();
 }
 
-function handleImageLoad(e) {
+function handleLoadComplete(e) {
 	//remove context menu
 	document.getElementById("gameCanvas").oncontextmenu = function() {
      return false;  
 	} 
+	//launch music
+	createjs.Sound.play("music","none",0,0,-1);
 	// create a new stage and point it at our canvas:
 	stage = new createjs.Stage(canvas);
 	screen_width = canvas.width;
@@ -197,6 +209,7 @@ function handleKeys(e){
 }
 function jump(e) {
 	if (collideGround(player) && player.life){
+		test = createjs.Sound.play("sound_jump");
 		player.jump = true;
 		player.gotoAndPlay("jump");
 		player.velocityY = player.force;
@@ -204,6 +217,7 @@ function jump(e) {
 }
 function turbo(e){
 	if (player.life && player.x == 64) {
+		createjs.Sound.play("sound_turbo");
 		player.velocityX = player.force *(-2);
 		player.turbo = true;
 	}
@@ -390,6 +404,7 @@ function collideRock(){
 		playerDie();
 }
 function playerDie(){
+	test = createjs.Sound.play("sound_die");
 	document.getElementById("score_board").style.display = "none";
 	//test best score
 	score = Math.floor(score);
